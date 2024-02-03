@@ -9,7 +9,8 @@ pipeline {
     stages {
         
         stage('Checkout'){
-           steps { 
+           steps {
+                git credentialsId: 'f87a34a8-0e09-45e7-b9cf-6dc68feac670',
                 url: 'https://github.com/fatimatabssum1/Jenkins-Zero-To-Hero',
                 branch: 'main'
            }
