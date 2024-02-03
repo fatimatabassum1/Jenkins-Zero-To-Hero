@@ -8,12 +8,11 @@ pipeline {
     
     stages {
         
-        stage('Checkout'){
-           steps {
-                git credentialsId: 'gph_qCFUwO1tWMjx1794ObXz5iQLkibeYL0g1HsS',
-                url: 'https://github.com/fatimatabssum1/Jenkins-Zero-To-Hero',
-                branch: 'main'
-           }
+        stage('Checkout') {
+            steps {
+                sh 'echo passed'
+                //git branch: 'main', url: 'https://github.com/fatimatabassum1/Jenkins-Zero-To-Hero'
+            }
         }
 
         stage('Build Docker'){
