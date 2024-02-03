@@ -7,12 +7,6 @@ pipeline {
                 //git branch: 'main', url: 'https://github.com/fatimatabassum1/Jenkins-Zero-To-Hero'
             }
         }
-        stage('Build and Test') {
-            steps {
-                // build the project and create a JAR file
-                sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
-            }
-        }
         stage('Build and Push Docker Image') {
             environment {
                 DOCKER_IMAGE = "fatimatassum/ultimate-cicd-new:${BUILD_NUMBER}"
