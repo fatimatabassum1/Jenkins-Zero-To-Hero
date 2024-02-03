@@ -1,31 +1,38 @@
 pipeline {
-    agent any
+    
+    agent any 
+    
+    environment {
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+    
     stages {
-        stage('Checkout') {
-            steps {
-                sh 'echo passed'
-                //git branch: 'main', url: 'https://github.com/fatimatabassum1/Jenkins-Zero-To-Hero'
-            }
+        
+        stage('Checkout'){
+           steps { 
+                url: 'https://github.com/fatimatabssum1/Jenkins-Zero-To-Hero',
+                branch: 'main'
+           }
         }
-        stage('Build and Test') {
-            steps {
-                // build the project and create a JAR file
-                sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
-            }
-        }
-        stage('Build and Push Docker Image') {
-            environment {
-                DOCKER_IMAGE = "fatimatassum/ultimate-cicd-new:${BUILD_NUMBER}"
-                // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
-                REGISTRY_CREDENTIALS = credentials('docker-cred')
+
+        stage('Build Docker'){
+            steps{
+                script{
+                    sh '''
+                    echo 'Buid Docker Image'
+                    docker build -t fatimatabassum/cicd-new:${BUILD_NUMBER} .
+                    '''
                 }
-            steps {
-                script {
-                    sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
-                    def dockerImage = docker.image("${DOCKER_IMAGE}")
-                    docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
-                    dockerImage.push()
-                    }
+            }
+        }
+
+        stage('Push the artifacts'){
+           steps{
+                script{
+                    sh '''
+                    echo 'Push to Repo'
+                    docker push fatimatabssum/cicd-new:${BUILD_NUMBER}
+                    '''
                 }
             }
         }
