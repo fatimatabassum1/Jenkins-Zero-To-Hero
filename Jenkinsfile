@@ -14,10 +14,12 @@ pipeline {
             }
         }
         stage('Build and Push Docker Image') {
-            environment {
-                DOCKER_IMAGE = "fatimatassum/ultimate-cicd-new:${BUILD_NUMBER}"
-                // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
-                REGISTRY_CREDENTIALS = credentials('docker-cred')
+            steps{
+                environment {
+                    DOCKER_IMAGE = "fatimatassum/ultimate-cicd-new:${BUILD_NUMBER}"
+                    // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
+                    REGISTRY_CREDENTIALS = credentials('docker-cred')
+                }
             }
         }
     }
